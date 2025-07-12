@@ -11,11 +11,12 @@ import {
     StyleSheet,
     Text,
     TouchableOpacity,
-    View,
+    View
 } from "react-native";
 import Icon from 'react-native-vector-icons/Feather';
+
 const SCREEN_WIDTH = Dimensions.get("window").width;
-const SIDEBAR_WIDTH = SCREEN_WIDTH * 0.6;
+const SIDEBAR_WIDTH = SCREEN_WIDTH * 0.8;
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
     const router = useRouter();
@@ -49,7 +50,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
     const logout = async () => {
         await AsyncStorage.removeItem("token");
         router.replace("/(auth)/login");
-      };
+    };
 
     return (
         // <SafeAreaProvider>
@@ -82,39 +83,37 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
 
                 {/* Sidebar */}
                 <Animated.View style={[styles.sidebar, { left: sidebarAnim }]}>
-                    <View style={styles.profileCard}>
-                        <View style={styles.profileImageWrapper}>
+                    <View style={styles.userProfile}>
+                        <View style={styles.userProfileImageWrapper}>
                             <Image
-                                source={{ uri: "https://placehold.co/64x64" }}
-                                style={styles.profileImage}
+                                source={{ uri: "https://images.unsplash.com/photo-1575936123452-b67c3203c357?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D" }} style={styles.userProfileImage}
                             />
                         </View>
                         <Text style={styles.name}>John Doe</Text>
-                        <Text style={styles.email}>johndoe@email.com</Text>
                     </View>
-
-                    <ScrollView style={styles.menuContainer}>
+                    <Text style={styles.email}>john.doe@example.com</Text>
+                    <ScrollView style={styles.sidebarContent}>
                         {sideMenuItems.map((item, index) => (
                             <TouchableOpacity
                                 key={index}
-                                style={styles.menuItem}
+                                style={styles.sidebarItem}
                                 onPress={() => {
-                                    router.replace(item.route);
                                     toggleSidebar();
+                                    router.replace(item.route);
                                 }}
                             >
-                                <Icon name={item.icon} size={20} color="#2a2a2a" />
-                                <Text style={styles.menuText}>{item.label}</Text>
+                                <Icon name={item.icon} size={24} color="#2a2a2a" />
+                                <Text style={styles.sidebarText}>{item.label}</Text>
                             </TouchableOpacity>
                         ))}
                         <TouchableOpacity
-                                style={styles.menuItem}
-                                onPress={() => {
-                                    logout();
+                            style={styles.sidebarItem}
+                            onPress={() => {
+                                logout();
                                 }}
                             >
                                 <Icon name="log-out" size={20} color="#2a2a2a" />
-                                <Text style={styles.menuText}>Log Out</Text>
+                                <Text style={styles.sidebarText}>Log Out</Text>
                             </TouchableOpacity>
                     </ScrollView>
                 </Animated.View>
@@ -163,80 +162,68 @@ const styles = StyleSheet.create({
         top: 0,
         bottom: 0,
         width: SIDEBAR_WIDTH,
-        backgroundColor: "#eaf6ff",
-        paddingTop: 30,
-        paddingHorizontal: 8,
+        backgroundColor: "#fff",
         zIndex: 2,
         shadowColor: '#c2e7ff',
         shadowOpacity: 0.15,
         shadowRadius: 24,
         elevation: 10,
-        borderRightWidth: 2,
-        borderRightColor: '#c2e7ff',
         overflow: 'hidden',
     },
-    profileCard: {
-        alignItems: "center",
-        backgroundColor: "#fff",
-        borderRadius: 22,
-        paddingVertical: 18,
-        paddingHorizontal: 8,
-        marginBottom: 22,
-        marginHorizontal: 8,
-        shadowColor: '#c2e7ff',
-        shadowOpacity: 0.18,
-        shadowRadius: 12,
-        elevation: 6,
-    },
-    profileImageWrapper: {
-        backgroundColor: '#c2e7ff',
-        borderRadius: 36,
-        padding: 4,
-        marginBottom: 8,
-        shadowColor: '#b4d2f7',
-        shadowOpacity: 0.18,
-        shadowRadius: 10,
-        elevation: 4,
-    },
-    profileImage: {
-        width: 56,
-        height: 56,
-        borderRadius: 28,
-    },
-    name: {
+    userProfile: {
+        marginBottom: 20,
+        backgroundColor: "#3D5CFF",
+        height: "15%",
+        width: "100%",
+        padding: 16,
+        justifyContent: "flex-end",
+        alignItems: "flex-end",
+        position: "relative",
+    }, userProfileImageWrapper: {
+        width: 100,
+        height: 100,
+        borderRadius: 50,
+        overflow: "hidden",
+        position: "absolute",
+        left: 16,
+        bottom: '-50%',
+        margin: "auto",
+    }, userProfileImage: {
+        width: 100,
+        height: 100,
+        borderRadius: 50,
+        overflow: "hidden",
+    }, name: {
         fontSize: 16,
-        fontWeight: "bold",
-        color: "#2a2a2a",
+        fontWeight: 'bold',
+        color: '#fff',
+        marginTop: 8,
+    }, email: {
+        fontSize: 14,
+        color: '#000',
+        textAlign: "right",
+        paddingRight: 16,
+        maxWidth: "70%",
+        alignSelf: "flex-end",
+        marginBottom: 20,
     },
-    email: {
-        fontSize: 12,
-        color: "#555",
-    },
-    menuContainer: {
+    sidebarContent: {
         flex: 1,
-        paddingHorizontal: 2,
+        backgroundColor: "#fff",
+        borderTopWidth: 2,
+        borderTopColor: "#e0e0e0",
     },
-    menuItem: {
+    sidebarItem: {
         flexDirection: "row",
         alignItems: "center",
-        backgroundColor: '#fff',
-        marginVertical: 6,
-        marginHorizontal: 4,
-        borderRadius: 16,
-        paddingVertical: 10,
-        paddingHorizontal: 12,
-        shadowColor: '#c2e7ff',
-        shadowOpacity: 0.09,
-        shadowRadius: 6,
-        elevation: 2,
-        borderWidth: 1,
-        borderColor: '#e3f1ff',
+        paddingVertical: 12,
+        paddingHorizontal: 16,
+        borderBottomWidth: 1,
+        borderBottomColor: "#e0e0e0",
     },
-    menuText: {
-        fontSize: 15,
-        color: "#2a2a2a",
-        fontWeight: '500',
-        marginLeft: 10,
+    sidebarText: {
+        fontSize: 16,
+        marginLeft: 12,
     },
     mainContent: {
         flex: 1,
