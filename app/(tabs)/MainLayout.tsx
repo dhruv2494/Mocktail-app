@@ -1,6 +1,7 @@
-import { IconSymbol } from "@/components/ui/IconSymbol";
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useRouter } from "expo-router";
+import { usePathname, useRouter } from "expo-router";
 import React, { useRef, useState } from "react";
 import {
     Animated,
@@ -22,7 +23,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
     const router = useRouter();
     const [sidebarVisible, setSidebarVisible] = useState(false);
     const sidebarAnim = useRef(new Animated.Value(-SIDEBAR_WIDTH)).current;
-
+    const pathname = usePathname();
     const toggleSidebar = () => {
         Animated.timing(sidebarAnim, {
             toValue: sidebarVisible ? -SIDEBAR_WIDTH : 0,
@@ -126,19 +127,23 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
 
             {/* Bottom Navigation */}
             <View style={styles.bottomNav}>
-                <TouchableOpacity style={styles.bottomNavBtn} onPress={() => router.replace("/")}>
-                    <IconSymbol size={28} name="house.fill" color="#3b82f6" />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.bottomNavBtn} onPress={() => router.replace("/tests")}>
-                    <IconSymbol size={28} name="doc.text.magnifyingglass" color="#3b82f6" />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.bottomNavBtn} onPress={() => router.replace("/subscriptions")}>
-                    <IconSymbol size={28} name="creditcard.fill" color="#3b82f6" />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.bottomNavBtn} onPress={() => router.replace("/pdfs")}>
-                    <IconSymbol size={28} name="doc.richtext" color="#3b82f6" />
-                </TouchableOpacity>
-            </View>
+    <TouchableOpacity style={styles.bottomNavBtn} onPress={() => router.replace("/")}>
+        <MaterialIcons size={30} name="house" color={pathname === "/" ? "#3b82f6" : "#B8B8D2"} />
+    </TouchableOpacity>
+    <TouchableOpacity style={styles.bottomNavBtn} onPress={() => router.replace("/tests")}>
+        <MaterialIcons size={30} name="assignment" color={pathname === "/tests" ? "#3b82f6" : "#B8B8D2"} />
+    </TouchableOpacity>
+    <TouchableOpacity style={[styles.bottomNavBtn,styles.bottomNavBtnMain]} onPress={() => router.replace("/subscriptions")}>
+    <MaterialCommunityIcons size={34} name="crown" color={"#fff"} />
+    </TouchableOpacity>
+    <TouchableOpacity style={styles.bottomNavBtn} onPress={() => router.replace("/pdfs")}>
+        <MaterialIcons size={30} name="picture-as-pdf" color={pathname === "/pdfs" ? "#3b82f6" : "#B8B8D2"} />
+    </TouchableOpacity>
+    <TouchableOpacity style={styles.bottomNavBtn} onPress={() => router.replace("/combo")}>
+        <MaterialIcons size={30} name="layers" color={pathname === "/combo" ? "#3b82f6" : "#B8B8D2"} />
+    </TouchableOpacity>
+</View>
+
         </View>
         // </SafeAreaProvider>
     );
@@ -259,6 +264,9 @@ const styles = StyleSheet.create({
         alignItems: "center",
         paddingHorizontal: 28,
         paddingVertical: 10,
+        height: 80,
+        position: "relative",
+
     },
     bottomNavBtn: {
         // alignItems: 'center',
@@ -271,5 +279,12 @@ const styles = StyleSheet.create({
         // shadowOpacity: 0.09,
         // shadowRadius: 6,
         // elevation: 2,
+    },
+    bottomNavBtnMain: {
+        backgroundColor: '#3b82f6',
+        borderRadius:80,
+        padding: 15,
+        zIndex: 1,
+        
     },
 });
