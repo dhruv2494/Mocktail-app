@@ -1,45 +1,30 @@
-import { Tabs } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 import React from 'react';
-import { Platform } from 'react-native';
-
-import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import TabBarBackground from '@/components/ui/TabBarBackground';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
+import MainLayout from './MainLayout';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+
+  const router = useRouter();
 
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
-        tabBarStyle: Platform.select({
-          ios: {
-            // Use a transparent background on iOS to show the blur effect
-            position: 'absolute',
-          },
-          default: {},
-        }),
-      }}>
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
-        }}
-      />
-    </Tabs>
+    <MainLayout>
+    
+      <Stack screenOptions={{ headerShown: false }} initialRouteName="index">
+        <Stack.Screen name="index" options={{ title: 'Home' }} />
+        <Stack.Screen name="tests" options={{ title: 'Tests' }} />
+        <Stack.Screen name="subscriptions" options={{ title: 'Subscriptions' }} />
+        <Stack.Screen name="pdfs" options={{ title: 'PDFs' }} />
+        <Stack.Screen name="combo" options={{ title: 'Combo Packages' }} />
+        <Stack.Screen name="free-quiz" options={{ title: 'Free Quiz' }} />
+        <Stack.Screen name="live-tests" options={{ title: 'Live Tests' }} />
+        <Stack.Screen name="ebooks" options={{ title: 'eBooks' }} />
+        <Stack.Screen name="alerts" options={{ title: 'Job Alerts' }} />
+        <Stack.Screen name="purchases" options={{ title: 'Purchase List' }} />
+        <Stack.Screen name="contact" options={{ title: 'Contact Us' }} />
+        <Stack.Screen name="privacy" options={{ title: 'Privacy Policy' }} />
+      </Stack>
+     
+
+    </MainLayout>
   );
 }
