@@ -38,7 +38,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
         }).start();
         setSidebarVisible(!sidebarVisible);
     };
-    const { showBottomTab } = useSelector((state: RootState) => state.appConfig);
+    const { showBottomTab, showHeader, headerText } = useSelector((state: RootState) => state.appConfig);
     const sideMenuItems = [
         { label: "Home", icon: "home", route: "/", lib: "Feather" },
         { label: "Subscriptions", icon: "credit-card", route: "/subscriptions", lib: "Feather" },
@@ -59,24 +59,18 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
         router.replace("/(auth)/login");
     };
 
+    const handleNavigate = (route: string) => {
+        if (sidebarVisible) {
+            toggleSidebar();
+        }
+        router.replace(route);
+    };
+
     return (
-        // <SafeAreaProvider>
         <View style={[styles.container, { backgroundColor: colors.background }]}>
-            {/* Header */}
-            {/* <View style={[styles.header, { backgroundColor: colors.card }]}>
-                <TouchableOpacity onPress={toggleSidebar} style={{
-                    width: 40,
-                    height: 40,
-                    alignItems: "center",
-                    justifyContent: "center",
-                    borderRadius: 20,
-                }}>
-                    <Text style={{ fontSize: 24, color: colors.text }}>☰</Text>
-                </TouchableOpacity>
-                <Text style={[styles.logoText, { color: colors.primary }]}>MockTale</Text>
-            </View> */}
-            {!sidebarVisible && <TouchableOpacity onPress={toggleSidebar} style={[styles.sidebarToggle,{backgroundColor: colors.primary}]}>
-                <Text style={{ fontSize: 24, color: colors.text }}>☰</Text>
+
+            {!sidebarVisible && <TouchableOpacity onPress={toggleSidebar} style={[styles.sidebarToggle, { backgroundColor: "#fff" }]}>
+                <Text style={{ fontSize: 24, color: colors.primary }}>☰</Text>
             </TouchableOpacity>}
 
             <View style={{ flex: 1, flexDirection: "row", position: "relative" }}>
@@ -128,25 +122,28 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
 
                 {/* Main Content */}
                 <View style={[styles.mainContent, { backgroundColor: colors.background }]}>
+                    {showHeader && <View style={[styles.commonHeader, { backgroundColor: colors.primary }]}>
+                        <Text style={[styles.commonHeaderText, { color: colors.card }]}>{headerText||"Hello John"}</Text>
+                    </View>}
                     <View style={{ flex: 1 }}>{children}</View>
                 </View>
             </View>
 
             {/* Bottom Navigation */}
             {showBottomTab && <View style={[styles.bottomNav, { backgroundColor: colors.card }]}>
-                <TouchableOpacity style={styles.bottomNavBtn} onPress={() => router.replace("/")}>
+                <TouchableOpacity style={styles.bottomNavBtn} onPress={() => handleNavigate("/")}>
                     <MaterialIcons size={30} name="house" color={pathname === "/" ? colors.primary : colors.border} />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.bottomNavBtn} onPress={() => router.replace("/tests")}>
+                <TouchableOpacity style={styles.bottomNavBtn} onPress={() => handleNavigate("/tests")}>
                     <MaterialIcons size={30} name="assignment" color={pathname === "/tests" ? colors.primary : colors.border} />
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.bottomNavBtn, styles.bottomNavBtnMain]} onPress={() => router.replace("/subscriptions")}>
+                <TouchableOpacity style={[styles.bottomNavBtn, styles.bottomNavBtnMain]} onPress={() => handleNavigate("/subscriptions")}>
                     <MaterialCommunityIcons size={34} name="crown" color="#fff" />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.bottomNavBtn} onPress={() => router.replace("/pdfs")}>
+                <TouchableOpacity style={styles.bottomNavBtn} onPress={() => handleNavigate("/pdfs")}>
                     <MaterialIcons size={30} name="picture-as-pdf" color={pathname === "/pdfs" ? colors.primary : colors.border} />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.bottomNavBtn} onPress={() => router.replace("/combo")}>
+                <TouchableOpacity style={styles.bottomNavBtn} onPress={() => handleNavigate("/combo")}>
                     <MaterialIcons size={30} name="layers" color={pathname === "/combo" ? colors.primary : colors.border} />
                 </TouchableOpacity>
             </View>}
@@ -181,6 +178,21 @@ const styles = StyleSheet.create({
         right: 0,
         backgroundColor: "rgba(0,0,0,0.3)",
         zIndex: 1,
+    },
+    commonHeader: {
+        width: "100%",
+        height: "20%",
+        display: "flex",
+        alignItems: "flex-start",
+        justifyContent: "flex-end",
+        padding: 20,
+
+    },
+    commonHeaderText: {
+        fontSize: 25,
+        fontWeight: "bold",
+        color: "#fff",
+        textAlign: "center",
     },
     sidebar: {
         position: "absolute",
@@ -253,6 +265,7 @@ const styles = StyleSheet.create({
     mainContent: {
         flex: 1,
         backgroundColor: "#fff",
+
     },
     header: {
         height: 60,

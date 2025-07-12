@@ -1,18 +1,26 @@
+import { setHeaderText } from '@/store/appConfigSlice';
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
-
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useDispatch } from 'react-redux';
 const ALERTS = [
   { title: 'SSC CGL 2025 Notification Out', date: '2025-07-05', link: '#' },
   { title: 'IBPS PO Recruitment Open', date: '2025-07-03', link: '#' },
   { title: 'Railway Group D Results', date: '2025-07-01', link: '#' },
+  { title: 'trainee recruitment', date: '2025-07-01', link: '#' },
+  { title: 'railway recruitment', date: '2025-07-01', link: '#' },
+  { title: 'job alert', date: '2025-07-01', link: '#' },
 ];
 
 export default function AlertsScreen() {
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(setHeaderText("Job Alerts"));
+    return () => {
+      dispatch(setHeaderText(""));
+    };
+  }, []);
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Image source={require('../../assets/images/mocktale-logo.jpeg')} style={styles.logo} />
-      <Text style={styles.heading}>Job Alerts</Text>
-      <Text style={styles.description}>Stay updated with the latest job notifications and results!</Text>
       <View style={styles.alertList}>
         {ALERTS.map(alert => (
           <View key={alert.title} style={styles.alertCard}>
@@ -34,22 +42,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#f4faff',
     paddingVertical: 32,
     flexGrow: 1,
-  },
-  logo: {
-    width: 90,
-    height: 90,
-    borderRadius: 18,
-    marginBottom: 12,
-    resizeMode: 'contain',
-    backgroundColor: '#fff',
-    elevation: 3,
-  },
-  heading: {
-    fontSize: 26,
-    fontWeight: 'bold',
-    color: '#3b82f6',
-    marginBottom: 10,
-    letterSpacing: 0.5,
   },
   description: {
     fontSize: 15,

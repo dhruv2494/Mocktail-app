@@ -1,6 +1,7 @@
-import { setShowBottomTab } from '@/store/appConfigSlice';
-import React, { useEffect } from 'react';
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { setHeaderText, setShowBottomTab } from '@/store/appConfigSlice';
+import { useTheme } from '@react-navigation/native';
+import React from 'react';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 const PLANS = [
   {
@@ -24,29 +25,46 @@ const PLANS = [
 ];
 export default function SubscriptionsScreen() {
   const dispatch = useDispatch();
-  useEffect(() => {
-      dispatch(setShowBottomTab(false));
-      return () => {
-          dispatch(setShowBottomTab(true));
-      };
+  const { colors } = useTheme();
+  React.useEffect(() => {
+    dispatch(setShowBottomTab(false));
+    dispatch(setHeaderText("Choose Your Plan"));
+    return () => {
+      dispatch(setShowBottomTab(true));
+      dispatch(setHeaderText(""));
+    };
   }, []);
+
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Image source={require('../../assets/images/mocktale-logo.jpeg')} style={styles.logo} />
-      <Text style={styles.heading}>Choose Your Plan</Text>
+    <ScrollView
+      contentContainerStyle={[
+        styles.container,
+        { backgroundColor: colors.background }
+      ]}
+    >
       <View style={styles.plansContainer}>
         {PLANS.map((plan, idx) => (
-          <View key={plan.title} style={[styles.card, plan.best && styles.bestCard]}>
-            {plan.best && <Text style={styles.bestBadge}>Most Popular</Text>}
-            <Text style={styles.planTitle}>{plan.title}</Text>
-            <Text style={styles.planPrice}>{plan.price}</Text>
+          <View
+            key={plan.title}
+            style={[styles.card, { backgroundColor: colors.card, borderColor: plan.best ? colors.primary : colors.border, shadowColor: colors.primary }, plan.best && styles.bestCard]}
+          >
+            {plan.best && (
+              <Text style={[styles.bestBadge, { backgroundColor: colors.primary, color: colors.card }]}>Most Popular</Text>
+            )}
+            <Text style={[styles.planTitle, { color: colors.primary }]}>{plan.title}</Text>
+            <Text style={[styles.planPrice, { color: colors.text }]}>{plan.price}</Text>
             <View style={styles.featuresList}>
               {plan.features.map(f => (
-                <Text key={f} style={styles.featureItem}>• {f}</Text>
+                <Text key={f} style={[styles.featureItem, { color: colors.text }]}>• {f}</Text>
               ))}
             </View>
-            <TouchableOpacity style={[styles.subscribeBtn, plan.best && styles.bestBtn]}>
-              <Text style={styles.subscribeText}>Subscribe</Text>
+            <TouchableOpacity
+              style={[
+                styles.subscribeBtn,
+                { backgroundColor: plan.best ? colors.primary : colors.card, borderWidth: plan.best ? 0 : 1, borderColor: colors.primary },
+              ]}
+            >
+              <Text style={[styles.subscribeText, { color: plan.best ? colors.card : colors.primary }]}>Subscribe</Text>
             </TouchableOpacity>
           </View>
         ))}
@@ -58,25 +76,8 @@ export default function SubscriptionsScreen() {
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    backgroundColor: '#f4faff',
     paddingVertical: 32,
     flexGrow: 1,
-  },
-  logo: {
-    width: 90,
-    height: 90,
-    borderRadius: 18,
-    marginBottom: 12,
-    resizeMode: 'contain',
-    backgroundColor: '#fff',
-    elevation: 3,
-  },
-  heading: {
-    fontSize: 26,
-    fontWeight: 'bold',
-    color: '#222',
-    marginBottom: 18,
-    letterSpacing: 0.5,
   },
   plansContainer: {
     width: '100%',
@@ -84,22 +85,18 @@ const styles = StyleSheet.create({
   },
   card: {
     width: 320,
-    backgroundColor: '#fff',
     borderRadius: 18,
     padding: 22,
     marginVertical: 10,
     alignItems: 'center',
     elevation: 4,
     borderWidth: 2,
-    borderColor: '#e0eaff',
-    shadowColor: '#3b82f6',
     shadowOpacity: 0.09,
     shadowRadius: 8,
     shadowOffset: { width: 0, height: 3 },
     position: 'relative',
   },
   bestCard: {
-    borderColor: '#3b82f6',
     elevation: 7,
     shadowOpacity: 0.18,
   },
@@ -107,8 +104,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 12,
     right: 12,
-    backgroundColor: '#3b82f6',
-    color: '#fff',
     fontWeight: 'bold',
     fontSize: 12,
     paddingHorizontal: 10,
@@ -120,14 +115,12 @@ const styles = StyleSheet.create({
   planTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#3b82f6',
     marginBottom: 6,
     marginTop: 8,
   },
   planPrice: {
     fontSize: 26,
     fontWeight: 'bold',
-    color: '#222',
     marginBottom: 12,
   },
   featuresList: {
@@ -136,22 +129,17 @@ const styles = StyleSheet.create({
   },
   featureItem: {
     fontSize: 15,
-    color: '#444',
     marginVertical: 2,
     marginLeft: 2,
   },
   subscribeBtn: {
-    backgroundColor: '#3b82f6',
     borderRadius: 8,
     paddingVertical: 10,
     paddingHorizontal: 28,
     marginTop: 5,
-  },
-  bestBtn: {
-    backgroundColor: '#2563eb',
+    borderWidth: 1,
   },
   subscribeText: {
-    color: '#fff',
     fontWeight: 'bold',
     fontSize: 16,
     letterSpacing: 0.5,

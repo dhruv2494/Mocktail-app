@@ -1,31 +1,68 @@
+import { setHeaderText } from '@/store/appConfigSlice';
 import React from 'react';
-import { View, Text, StyleSheet, Image, ScrollView } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useDispatch } from 'react-redux';
 
-const PRIVACY_TEXT = `
-Your privacy is important to us. This Privacy Policy explains how Mocktale collects, uses, and protects your information.
+const PRIVACY_SECTIONS = [
+  {
+    title: '',
+    body: 'Your privacy is important to us. This Privacy Policy explains how Mocktale collects, uses, and protects your information.'
+  },
+  {
+    title: 'Information Collection',
+    body: 'We collect information you provide directly, such as when you create an account, contact us, or use our services.'
+  },
+  {
+    title: 'Use of Information',
+    body: 'Your information is used to provide and improve our services, communicate with you, and ensure security.'
+  },
+  {
+    title: 'Data Sharing',
+    body: 'We do not sell your personal information. We may share data with trusted partners who assist us in operating our app, provided they agree to keep it confidential.'
+  },
+  {
+    title: 'Security',
+    body: 'We implement reasonable security measures to protect your data.'
+  },
+  {
+    title: 'Your Rights',
+    body: 'You can access, update, or delete your information by contacting us.'
+  },
+  {
+    title: 'Changes to Policy',
+    body: 'We may update this policy. Changes will be posted in the app.'
+  },
+  {
+    title: '',
+    body: 'For any questions, please contact us at support@mocktale.com.'
+  },
+];
 
-1. **Information Collection**: We collect information you provide directly, such as when you create an account, contact us, or use our services.
-
-2. **Use of Information**: Your information is used to provide and improve our services, communicate with you, and ensure security.
-
-3. **Data Sharing**: We do not sell your personal information. We may share data with trusted partners who assist us in operating our app, provided they agree to keep it confidential.
-
-4. **Security**: We implement reasonable security measures to protect your data.
-
-5. **Your Rights**: You can access, update, or delete your information by contacting us.
-
-6. **Changes to Policy**: We may update this policy. Changes will be posted in the app.
-
-For any questions, please contact us at support@mocktale.com.
-`;
+function renderPrivacySections(sections: { title: string; body: string }[]) {
+  return sections.map((section, idx) => (
+    <View key={idx} style={{ marginBottom: 14 }}>
+      {section.title ? (
+        <Text style={[styles.policyText, { fontWeight: 'bold', marginBottom: 2 }]}>
+          {section.title}
+        </Text>
+      ) : null}
+      <Text style={styles.policyText}>{section.body}</Text>
+    </View>
+  ));
+}
 
 export default function PrivacyScreen() {
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(setHeaderText('Privacy Policy'));
+    return () => {
+      dispatch(setHeaderText(''));
+    };
+  }, []);
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Image source={require('../../assets/images/mocktale-logo.jpeg')} style={styles.logo} />
-      <Text style={styles.heading}>Privacy Policy</Text>
       <View style={styles.policyBox}>
-        <Text style={styles.policyText}>{PRIVACY_TEXT}</Text>
+        {renderPrivacySections(PRIVACY_SECTIONS)}
       </View>
     </ScrollView>
   );
@@ -37,22 +74,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#f4faff',
     paddingVertical: 32,
     flexGrow: 1,
-  },
-  logo: {
-    width: 90,
-    height: 90,
-    borderRadius: 18,
-    marginBottom: 12,
-    resizeMode: 'contain',
-    backgroundColor: '#fff',
-    elevation: 3,
-  },
-  heading: {
-    fontSize: 26,
-    fontWeight: 'bold',
-    color: '#3b82f6',
-    marginBottom: 10,
-    letterSpacing: 0.5,
   },
   policyBox: {
     width: '90%',

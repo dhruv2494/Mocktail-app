@@ -1,11 +1,18 @@
+import { setHeaderText } from '@/store/appConfigSlice';
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useDispatch } from 'react-redux';
 
 export default function FreeQuizScreen() {
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(setHeaderText("Free Quiz"));
+    return () => {
+      dispatch(setHeaderText(""));
+    };
+  }, []);
   return (
     <View style={styles.container}>
-      <Image source={require('../../assets/images/mocktale-logo.jpeg')} style={styles.logo} />
-      <Text style={styles.heading}>Free Quiz</Text>
       <Text style={styles.description}>
         Test your knowledge for free! Take our daily quiz and see how you score against others.
       </Text>
@@ -23,22 +30,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#f4faff',
     padding: 24,
-  },
-  logo: {
-    width: 90,
-    height: 90,
-    borderRadius: 18,
-    marginBottom: 16,
-    resizeMode: 'contain',
-    backgroundColor: '#fff',
-    elevation: 3,
-  },
-  heading: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#3b82f6',
-    marginBottom: 10,
-    letterSpacing: 0.5,
   },
   description: {
     fontSize: 16,

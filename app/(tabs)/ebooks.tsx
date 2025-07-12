@@ -1,18 +1,26 @@
+import { setHeaderText } from '@/store/appConfigSlice';
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
-
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useDispatch } from 'react-redux';
 const EBOOKS = [
   { title: 'SSC English Mastery', file: 'SSC_English.pdf' },
   { title: 'Banking Awareness', file: 'Banking_Awareness.pdf' },
   { title: 'Reasoning Tricks', file: 'Reasoning_Tricks.pdf' },
+  { title: 'SSC English Mastery 1', file: 'SSC_English_1.pdf' },
+  { title: 'Banking Awareness 1', file: 'Banking_Awareness_1.pdf' },
+  { title: 'Reasoning Tricks 1', file: 'Reasoning_Tricks_1.pdf' },
 ];
 
 export default function eBooksScreen() {
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(setHeaderText("E-Books"));
+    return () => {
+      dispatch(setHeaderText(""));
+    };
+  }, []);
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Image source={require('../../assets/images/mocktale-logo.jpeg')} style={styles.logo} />
-      <Text style={styles.heading}>eBooks</Text>
-      <Text style={styles.description}>Download our exclusive eBooks to boost your exam preparation!</Text>
       <View style={styles.ebookList}>
         {EBOOKS.map(ebook => (
           <View key={ebook.file} style={styles.ebookCard}>
@@ -34,22 +42,7 @@ const styles = StyleSheet.create({
     paddingVertical: 32,
     flexGrow: 1,
   },
-  logo: {
-    width: 90,
-    height: 90,
-    borderRadius: 18,
-    marginBottom: 12,
-    resizeMode: 'contain',
-    backgroundColor: '#fff',
-    elevation: 3,
-  },
-  heading: {
-    fontSize: 26,
-    fontWeight: 'bold',
-    color: '#3b82f6',
-    marginBottom: 10,
-    letterSpacing: 0.5,
-  },
+
   description: {
     fontSize: 15,
     color: '#444',

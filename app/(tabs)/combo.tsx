@@ -1,5 +1,7 @@
+import { setHeaderText } from '@/store/appConfigSlice';
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useDispatch } from 'react-redux';
 
 const COMBOS = [
   {
@@ -23,10 +25,15 @@ const COMBOS = [
 ];
 
 export default function ComboScreen() {
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(setHeaderText("Combo Packages"));
+    return () => {
+      dispatch(setHeaderText(""));
+    };
+  }, []);
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Image source={require('../../assets/images/mocktale-logo.jpeg')} style={styles.logo} />
-      <Text style={styles.heading}>Combo Packages</Text>
       <View style={styles.combosContainer}>
         {COMBOS.map((combo, idx) => (
           <View key={combo.title} style={[styles.card, combo.best && styles.bestCard]}>
@@ -54,22 +61,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#f4faff',
     paddingVertical: 32,
     flexGrow: 1,
-  },
-  logo: {
-    width: 90,
-    height: 90,
-    borderRadius: 18,
-    marginBottom: 12,
-    resizeMode: 'contain',
-    backgroundColor: '#fff',
-    elevation: 3,
-  },
-  heading: {
-    fontSize: 26,
-    fontWeight: 'bold',
-    color: '#222',
-    marginBottom: 18,
-    letterSpacing: 0.5,
   },
   combosContainer: {
     width: '100%',

@@ -1,18 +1,26 @@
+import { setHeaderText } from '@/store/appConfigSlice';
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
-
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useDispatch } from 'react-redux';
 const PURCHASES = [
   { item: 'Pro Subscription', date: '2025-06-25', amount: '₹249' },
   { item: 'Ultimate Combo', date: '2025-05-15', amount: '₹799' },
   { item: 'SSC English eBook', date: '2025-04-10', amount: '₹99' },
+  { item: 'second Pro Subscription', date: '2025-06-25', amount: '₹249' },
+  { item: 'second Ultimate Combo', date: '2025-05-15', amount: '₹799' },
+  { item: 'second SSC English eBook', date: '2025-04-10', amount: '₹99' },
 ];
 
 export default function PurchasesScreen() {
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(setHeaderText("Purchases"));
+    return () => {
+      dispatch(setHeaderText(""));
+    };
+  }, []);
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Image source={require('../../assets/images/mocktale-logo.jpeg')} style={styles.logo} />
-      <Text style={styles.heading}>Purchase List</Text>
-      <Text style={styles.description}>View your recent purchases and download receipts.</Text>
       <View style={styles.purchaseList}>
         {PURCHASES.map(purchase => (
           <View key={purchase.item + purchase.date} style={styles.purchaseCard}>
@@ -36,22 +44,7 @@ const styles = StyleSheet.create({
     paddingVertical: 32,
     flexGrow: 1,
   },
-  logo: {
-    width: 90,
-    height: 90,
-    borderRadius: 18,
-    marginBottom: 12,
-    resizeMode: 'contain',
-    backgroundColor: '#fff',
-    elevation: 3,
-  },
-  heading: {
-    fontSize: 26,
-    fontWeight: 'bold',
-    color: '#3b82f6',
-    marginBottom: 10,
-    letterSpacing: 0.5,
-  },
+
   description: {
     fontSize: 15,
     color: '#444',

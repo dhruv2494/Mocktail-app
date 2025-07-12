@@ -1,18 +1,27 @@
+import { setHeaderText } from '@/store/appConfigSlice';
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
-
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useDispatch } from 'react-redux';
 const PDFS = [
   { title: 'General Knowledge 2025', file: 'GK2025.pdf' },
   { title: 'Current Affairs Jan-Jun', file: 'CA_Jan_Jun.pdf' },
   { title: 'Maths Formulas', file: 'Maths_Formulas.pdf' },
+  { title: 'Reasoning Tricks', file: 'Reasoning_Tricks.pdf' },
+  { title: 'SSC English Mastery', file: 'SSC_English.pdf' },
+  { title: 'Banking Awareness', file: 'Banking_Awareness.pdf' },
+  { title: 'Reasoning Tricks 1', file: 'Reasoning_Tricks_1.pdf' },
 ];
 
 export default function PDFsScreen() {
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(setHeaderText("Free PDFs"));
+    return () => {
+      dispatch(setHeaderText(""));
+    };
+  }, []);
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Image source={require('../../assets/images/mocktale-logo.jpeg')} style={styles.logo} />
-      <Text style={styles.heading}>Free PDFs</Text>
-      <Text style={styles.description}>Download our curated collection of free PDFs to boost your preparation!</Text>
       <View style={styles.pdfList}>
         {PDFS.map(pdf => (
           <View key={pdf.file} style={styles.pdfCard}>
@@ -33,22 +42,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#f4faff',
     paddingVertical: 32,
     flexGrow: 1,
-  },
-  logo: {
-    width: 90,
-    height: 90,
-    borderRadius: 18,
-    marginBottom: 12,
-    resizeMode: 'contain',
-    backgroundColor: '#fff',
-    elevation: 3,
-  },
-  heading: {
-    fontSize: 26,
-    fontWeight: 'bold',
-    color: '#3b82f6',
-    marginBottom: 10,
-    letterSpacing: 0.5,
   },
   description: {
     fontSize: 15,

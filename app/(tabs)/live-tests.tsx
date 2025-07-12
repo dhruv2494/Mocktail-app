@@ -1,18 +1,25 @@
+import { setHeaderText } from '@/store/appConfigSlice';
 import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
-
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useDispatch } from 'react-redux';
 const LIVE_TESTS = [
   { title: 'Mock Test 1', date: '2025-07-10', time: '10:00 AM' },
   { title: 'Current Affairs Live', date: '2025-07-12', time: '4:00 PM' },
   { title: 'Maths Marathon', date: '2025-07-15', time: '8:00 PM' },
+  { title: 'Reasoning Marathon', date: '2025-07-16', time: '10:00 PM' },
+  { title: 'SSC English Marathon', date: '2025-07-17', time: '12:00 PM' },
 ];
 
 export default function LiveTestsScreen() {
+  const dispatch = useDispatch();
+  React.useEffect(() => {
+    dispatch(setHeaderText("Live Tests"));
+    return () => {
+      dispatch(setHeaderText(""));
+    };
+  }, []);
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Image source={require('../../assets/images/mocktale-logo.jpeg')} style={styles.logo} />
-      <Text style={styles.heading}>Live Tests</Text>
-      <Text style={styles.description}>Join our upcoming live tests and challenge yourself in real time!</Text>
       <View style={styles.testList}>
         {LIVE_TESTS.map(test => (
           <View key={test.title} style={styles.testCard}>
@@ -36,22 +43,7 @@ const styles = StyleSheet.create({
     paddingVertical: 32,
     flexGrow: 1,
   },
-  logo: {
-    width: 90,
-    height: 90,
-    borderRadius: 18,
-    marginBottom: 12,
-    resizeMode: 'contain',
-    backgroundColor: '#fff',
-    elevation: 3,
-  },
-  heading: {
-    fontSize: 26,
-    fontWeight: 'bold',
-    color: '#3b82f6',
-    marginBottom: 10,
-    letterSpacing: 0.5,
-  },
+
   description: {
     fontSize: 15,
     color: '#444',
