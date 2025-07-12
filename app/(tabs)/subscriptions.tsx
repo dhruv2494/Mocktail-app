@@ -1,6 +1,7 @@
-import React from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'react-native';
-
+import { setShowBottomTab } from '@/store/appConfigSlice';
+import React, { useEffect } from 'react';
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useDispatch } from 'react-redux';
 const PLANS = [
   {
     title: 'Basic',
@@ -21,8 +22,14 @@ const PLANS = [
     best: false,
   },
 ];
-
 export default function SubscriptionsScreen() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+      dispatch(setShowBottomTab(false));
+      return () => {
+          dispatch(setShowBottomTab(true));
+      };
+  }, []);
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Image source={require('../../assets/images/mocktale-logo.jpeg')} style={styles.logo} />

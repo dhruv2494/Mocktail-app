@@ -1,4 +1,5 @@
 import { showToast } from '@/modules/utils';
+import { RootState } from '@/store';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -17,6 +18,7 @@ import {
     View
 } from "react-native";
 import Icon from 'react-native-vector-icons/Feather';
+import { useSelector } from 'react-redux';
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const SIDEBAR_WIDTH = SCREEN_WIDTH * 0.8;
@@ -36,7 +38,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
         }).start();
         setSidebarVisible(!sidebarVisible);
     };
-
+    const { showBottomTab } = useSelector((state: RootState) => state.appConfig);
     const sideMenuItems = [
         { label: "Home", icon: "home", route: "/", lib: "Feather" },
         { label: "Subscriptions", icon: "credit-card", route: "/subscriptions", lib: "Feather" },
@@ -61,9 +63,8 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
         // <SafeAreaProvider>
         <View style={[styles.container, { backgroundColor: colors.background }]}>
             {/* Header */}
-            <View style={[styles.header, { backgroundColor: colors.card }]}>
+            {/* <View style={[styles.header, { backgroundColor: colors.card }]}>
                 <TouchableOpacity onPress={toggleSidebar} style={{
-                    // backgroundColor: "red",
                     width: 40,
                     height: 40,
                     alignItems: "center",
@@ -71,10 +72,12 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                     borderRadius: 20,
                 }}>
                     <Text style={{ fontSize: 24, color: colors.text }}>☰</Text>
-                    {/* <IconSymbol name="text.alignleft" size={24} color="#2a2a2a" /> */}
                 </TouchableOpacity>
                 <Text style={[styles.logoText, { color: colors.primary }]}>MockTale</Text>
-            </View>
+            </View> */}
+            {!sidebarVisible && <TouchableOpacity onPress={toggleSidebar} style={[styles.sidebarToggle,{backgroundColor: colors.primary}]}>
+                <Text style={{ fontSize: 24, color: colors.text }}>☰</Text>
+            </TouchableOpacity>}
 
             <View style={{ flex: 1, flexDirection: "row", position: "relative" }}>
                 {/* Overlay */}
@@ -130,7 +133,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
             </View>
 
             {/* Bottom Navigation */}
-            <View style={[styles.bottomNav, { backgroundColor: colors.card }]}>
+            {showBottomTab && <View style={[styles.bottomNav, { backgroundColor: colors.card }]}>
                 <TouchableOpacity style={styles.bottomNavBtn} onPress={() => router.replace("/")}>
                     <MaterialIcons size={30} name="house" color={pathname === "/" ? colors.primary : colors.border} />
                 </TouchableOpacity>
@@ -146,7 +149,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                 <TouchableOpacity style={styles.bottomNavBtn} onPress={() => router.replace("/combo")}>
                     <MaterialIcons size={30} name="layers" color={pathname === "/combo" ? colors.primary : colors.border} />
                 </TouchableOpacity>
-            </View>
+            </View>}
 
         </View>
         // </SafeAreaProvider>
@@ -156,6 +159,19 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        position: "relative",
+    },
+    sidebarToggle: {
+        width: 60,
+        height: 60,
+        alignItems: "center",
+        justifyContent: "center",
+        borderTopRightRadius: 20,
+        borderBottomRightRadius: 20,
+        position: "absolute",
+        top: 20,
+        left: 0,
+        zIndex: 3,
     },
     overlay: {
         position: "absolute",
@@ -286,9 +302,9 @@ const styles = StyleSheet.create({
     },
     bottomNavBtnMain: {
         backgroundColor: '#3b82f6',
-        borderRadius:80,
+        borderRadius: 80,
         padding: 15,
         zIndex: 1,
-        
+
     },
 });

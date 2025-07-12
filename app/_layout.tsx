@@ -1,4 +1,6 @@
 import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { Provider } from 'react-redux';
+import store from '../store';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import 'react-native-reanimated';
@@ -32,8 +34,9 @@ export default function RootLayout() {
   }
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>  
-    <ThemeProvider value={DefaultTheme}>
+    <SafeAreaView style={{ flex: 1 }}>
+      <Provider store={store}>
+        <ThemeProvider value={DefaultTheme}>
       <Stack screenOptions={{ headerShown: false }}>
         {hasToken ? (
           <Stack.Screen name="(tabs)" />
@@ -42,8 +45,9 @@ export default function RootLayout() {
         )}
       </Stack>
       <StatusBar style="light" hidden={true} />
-    </ThemeProvider>
-    <Toast />
+        </ThemeProvider>
+      </Provider>
+      <Toast />
     </SafeAreaView>
   );
 }
