@@ -1,4 +1,5 @@
 import Button from "@/components/common/Button";
+import { showToast } from "@/modules/utils";
 import { authStyle } from "@/styles/authStyle";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
@@ -22,7 +23,7 @@ export default function Login() {
 
     // Add login logic here (API call, etc)
     // Show a message or navigate as needed
-    alert("Login successful (mock)");
+    showToast({ type: "success", text1: "Login successful!" });
     router.replace("/(tabs)");
   };
 

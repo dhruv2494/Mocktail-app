@@ -1,3 +1,4 @@
+import { showToast } from '@/modules/utils';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -52,6 +53,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
     ];
     const logout = async () => {
         await AsyncStorage.removeItem("token");
+        showToast({ type: "success", text1: "Logout successfully!" });
         router.replace("/(auth)/login");
     };
 

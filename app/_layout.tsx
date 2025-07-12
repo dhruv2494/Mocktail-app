@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native';
+import Toast from 'react-native-toast-message';
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -42,6 +43,7 @@ export default function RootLayout() {
       </Stack>
       <StatusBar style="light" hidden={true} />
     </ThemeProvider>
+    <Toast />
     </SafeAreaView>
   );
 }

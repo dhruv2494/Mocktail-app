@@ -9,6 +9,7 @@ import {
   View
 } from "react-native";
 
+import { showToast } from "@/modules/utils";
 import { authStyle } from "@/styles/authStyle";
 import { useRef } from "react";
 
@@ -36,10 +37,10 @@ export default function Forgot() {
   const handleVerify = () => {
     if (otp.join("").length === 4) {
       // Add verification logic
-      alert("OTP Verified: " + otp.join(""));
+      showToast({ type: "success", text1: "OTP Verified",});
       router.replace("/(auth)/changePassword");
     } else {
-      alert("Please enter the 4-digit OTP");
+      showToast({ type: "error", text1: "Please enter the 4-digit OTP" });
     }
   };
 

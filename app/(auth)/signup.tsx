@@ -1,4 +1,5 @@
 import Button from "@/components/common/Button";
+import { showToast } from "@/modules/utils";
 import { authStyle } from "@/styles/authStyle";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
@@ -15,6 +16,11 @@ export default function Signup() {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [agree, setAgree] = useState(false);
   const router = useRouter();
+
+  const handleSignup = () => {
+    showToast({ type: "success", text1: "Signup successful!" });
+    router.replace("/(tabs)");
+  };
 
   return (
     <View style={authStyle.container}>
@@ -83,7 +89,7 @@ export default function Signup() {
           <Text style={authStyle.loginText}>
             Already have an account ?
           </Text>
-          <TouchableOpacity onPress={() => router.push("/(auth)/login")}>
+          <TouchableOpacity onPress={handleSignup}>
             <Text style={authStyle.loginLink}>Log in</Text>
           </TouchableOpacity>
         </View>
