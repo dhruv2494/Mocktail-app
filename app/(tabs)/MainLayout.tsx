@@ -1,6 +1,7 @@
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useTheme } from '@react-navigation/native';
 import { usePathname, useRouter } from "expo-router";
 import React, { useRef, useState } from "react";
 import {
@@ -20,6 +21,7 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 const SIDEBAR_WIDTH = SCREEN_WIDTH * 0.8;
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
+    const { colors } = useTheme();
     const router = useRouter();
     const [sidebarVisible, setSidebarVisible] = useState(false);
     const sidebarAnim = useRef(new Animated.Value(-SIDEBAR_WIDTH)).current;
@@ -55,9 +57,9 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
 
     return (
         // <SafeAreaProvider>
-        <View style={styles.container}>
+        <View style={[styles.container, { backgroundColor: colors.background }]}>
             {/* Header */}
-            <View style={styles.header}>
+            <View style={[styles.header, { backgroundColor: colors.card }]}>
                 <TouchableOpacity onPress={toggleSidebar} style={{
                     // backgroundColor: "red",
                     width: 40,
@@ -66,10 +68,10 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                     justifyContent: "center",
                     borderRadius: 20,
                 }}>
-                    <Text style={{ fontSize: 24, color: "#2a2a2a" }}>☰</Text>
+                    <Text style={{ fontSize: 24, color: colors.text }}>☰</Text>
                     {/* <IconSymbol name="text.alignleft" size={24} color="#2a2a2a" /> */}
                 </TouchableOpacity>
-                <Text style={styles.logoText}>MockTale</Text>
+                <Text style={[styles.logoText, { color: colors.primary }]}>MockTale</Text>
             </View>
 
             <View style={{ flex: 1, flexDirection: "row", position: "relative" }}>
@@ -83,16 +85,16 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                 )}
 
                 {/* Sidebar */}
-                <Animated.View style={[styles.sidebar, { left: sidebarAnim }]}>
+                <Animated.View style={[styles.sidebar, { left: sidebarAnim, backgroundColor: colors.card }]}>
                     <View style={styles.userProfile}>
                         <View style={styles.userProfileImageWrapper}>
                             <Image
                                 source={{ uri: "https://images.unsplash.com/photo-1575936123452-b67c3203c357?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D" }} style={styles.userProfileImage}
                             />
                         </View>
-                        <Text style={styles.name}>John Doe</Text>
+                        <Text style={[styles.name]}>John Doe</Text>
                     </View>
-                    <Text style={styles.email}>john.doe@example.com</Text>
+                    <Text style={[styles.email, { color: colors.text }]} >john.doe@example.com</Text>
                     <ScrollView style={styles.sidebarContent}>
                         {sideMenuItems.map((item, index) => (
                             <TouchableOpacity
@@ -103,46 +105,46 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                                     router.replace(item.route);
                                 }}
                             >
-                                <Icon name={item.icon} size={24} color="#2a2a2a" />
-                                <Text style={styles.sidebarText}>{item.label}</Text>
+                                <Icon name={item.icon} size={24} color={colors.text} />
+                                <Text style={[styles.sidebarText, { color: colors.text }]}>{item.label}</Text>
                             </TouchableOpacity>
                         ))}
                         <TouchableOpacity
                             style={styles.sidebarItem}
                             onPress={() => {
                                 logout();
-                                }}
-                            >
-                                <Icon name="log-out" size={20} color="#2a2a2a" />
-                                <Text style={styles.sidebarText}>Log Out</Text>
-                            </TouchableOpacity>
+                            }}
+                        >
+                            <Icon name="log-out" size={20} color={colors.text} />
+                            <Text style={[styles.sidebarText, { color: colors.text }]}>Log Out</Text>
+                        </TouchableOpacity>
                     </ScrollView>
                 </Animated.View>
 
                 {/* Main Content */}
-                <View style={styles.mainContent}>
+                <View style={[styles.mainContent, { backgroundColor: colors.background }]}>
                     <View style={{ flex: 1 }}>{children}</View>
                 </View>
             </View>
 
             {/* Bottom Navigation */}
-            <View style={styles.bottomNav}>
-    <TouchableOpacity style={styles.bottomNavBtn} onPress={() => router.replace("/")}>
-        <MaterialIcons size={30} name="house" color={pathname === "/" ? "#3b82f6" : "#B8B8D2"} />
-    </TouchableOpacity>
-    <TouchableOpacity style={styles.bottomNavBtn} onPress={() => router.replace("/tests")}>
-        <MaterialIcons size={30} name="assignment" color={pathname === "/tests" ? "#3b82f6" : "#B8B8D2"} />
-    </TouchableOpacity>
-    <TouchableOpacity style={[styles.bottomNavBtn,styles.bottomNavBtnMain]} onPress={() => router.replace("/subscriptions")}>
-    <MaterialCommunityIcons size={34} name="crown" color={"#fff"} />
-    </TouchableOpacity>
-    <TouchableOpacity style={styles.bottomNavBtn} onPress={() => router.replace("/pdfs")}>
-        <MaterialIcons size={30} name="picture-as-pdf" color={pathname === "/pdfs" ? "#3b82f6" : "#B8B8D2"} />
-    </TouchableOpacity>
-    <TouchableOpacity style={styles.bottomNavBtn} onPress={() => router.replace("/combo")}>
-        <MaterialIcons size={30} name="layers" color={pathname === "/combo" ? "#3b82f6" : "#B8B8D2"} />
-    </TouchableOpacity>
-</View>
+            <View style={[styles.bottomNav, { backgroundColor: colors.card }]}>
+                <TouchableOpacity style={styles.bottomNavBtn} onPress={() => router.replace("/")}>
+                    <MaterialIcons size={30} name="house" color={pathname === "/" ? colors.primary : colors.border} />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.bottomNavBtn} onPress={() => router.replace("/tests")}>
+                    <MaterialIcons size={30} name="assignment" color={pathname === "/tests" ? colors.primary : colors.border} />
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.bottomNavBtn, styles.bottomNavBtnMain]} onPress={() => router.replace("/subscriptions")}>
+                    <MaterialCommunityIcons size={34} name="crown" color="#fff" />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.bottomNavBtn} onPress={() => router.replace("/pdfs")}>
+                    <MaterialIcons size={30} name="picture-as-pdf" color={pathname === "/pdfs" ? colors.primary : colors.border} />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.bottomNavBtn} onPress={() => router.replace("/combo")}>
+                    <MaterialIcons size={30} name="layers" color={pathname === "/combo" ? colors.primary : colors.border} />
+                </TouchableOpacity>
+            </View>
 
         </View>
         // </SafeAreaProvider>
@@ -240,7 +242,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "flex-start",
         paddingHorizontal: 16,
-        backgroundColor: "#f8f9fa",
+        backgroundColor: "#FFFFFF",
         borderBottomWidth: 1,
         borderBottomColor: "#e0e0e0",
         zIndex: 1,
@@ -262,8 +264,8 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        paddingHorizontal: 28,
-        paddingVertical: 10,
+        paddingHorizontal: 10,
+        // paddingVertical: 10,
         height: 80,
         position: "relative",
 
