@@ -1,0 +1,93 @@
+import Button from "@/components/common/Button";
+import { useRouter } from "expo-router";
+import React, { useState } from "react";
+import {
+  ScrollView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View
+} from "react-native";
+
+import { authStyle } from "@/styles/authStyle";
+import { useRef } from "react";
+
+export default function Forgot() {
+  const [otp, setOtp] = useState(["", "", "", ""]);
+  const otpRefs = useRef<Array<TextInput | null>>([]);
+  const router = useRouter();
+
+  const handleOtpChange = (text: string, idx: number) => {
+    if (!/^[0-9]?$/.test(text)) return;
+    const newOtp = [...otp];
+    newOtp[idx] = text;
+    setOtp(newOtp);
+    if (text && idx < 3) {
+      otpRefs.current[idx + 1]?.focus();
+    }
+  };
+
+  const handleOtpKeyPress = (e: any, idx: number) => {
+    if (e.key === "Backspace" && !otp[idx] && idx > 0) {
+      otpRefs.current[idx - 1]?.focus();
+    }
+  };
+
+  const handleVerify = () => {
+    if (otp.join("").length === 4) {
+      // Add verification logic
+      alert("OTP Verified: " + otp.join(""));
+      router.replace("/(auth)/changePassword");
+    } else {
+      alert("Please enter the 4-digit OTP");
+    }
+  };
+
+  return (
+    <View style={authStyle.container}>
+      <View style={authStyle.header}>
+
+        <Text style={authStyle.heading}>Verify OTP</Text>
+      </View>
+
+      <ScrollView style={authStyle.form}>
+
+
+        <View style={authStyle.inputContainer}>
+          <Text style={authStyle.label}>Enter OTP</Text>
+          <View style={authStyle.otpRow}>
+            {[0, 1, 2, 3].map((i) => (
+              <TextInput
+                key={i}
+                ref={ref => { otpRefs.current[i] = ref; }}
+                style={authStyle.otpInput}
+                keyboardType="number-pad"
+                maxLength={1}
+                value={otp[i]}
+                onChangeText={text => handleOtpChange(text, i)}
+                onKeyPress={({ nativeEvent }) => handleOtpKeyPress(nativeEvent, i)}
+                autoFocus={i === 0}
+                returnKeyType="next"
+              />
+            ))}
+          </View>
+        </View>
+
+
+        <View style={authStyle.buttonContainer}>
+          <Button onPress={handleVerify} text="Verify" />
+        </View>
+
+        <View style={authStyle.loginTextContainer}>
+          <Text style={authStyle.loginText}>
+            Do you remember your password ?
+          </Text>
+          <TouchableOpacity onPress={() => router.push("/(auth)/login")}>
+            <Text style={authStyle.loginLink}>Login</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </View>
+  );
+}
+

@@ -1,4 +1,5 @@
 import { IconSymbol } from "@/components/ui/IconSymbol";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import React, { useRef, useState } from "react";
 import {
@@ -43,9 +44,12 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
         { label: "Purchase List", icon: "shopping-cart", route: "/purchases", lib: "Feather" },
         { label: "Contact Us", icon: "mail", route: "/contact", lib: "Feather" },
         { label: "Privacy Policy", icon: "lock", route: "/privacy", lib: "Feather" },
-        { label: "Log Out", icon: "log-out", route: "/logout", lib: "Feather" },
+        // { label: "Log Out", icon: "log-out", route: "/logout", lib: "Feather" },
     ];
-    
+    const logout = async () => {
+        await AsyncStorage.removeItem("token");
+        router.replace("/(auth)/login");
+      };
 
     return (
         // <SafeAreaProvider>
@@ -103,6 +107,15 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                                 <Text style={styles.menuText}>{item.label}</Text>
                             </TouchableOpacity>
                         ))}
+                        <TouchableOpacity
+                                style={styles.menuItem}
+                                onPress={() => {
+                                    logout();
+                                }}
+                            >
+                                <Icon name="log-out" size={20} color="#2a2a2a" />
+                                <Text style={styles.menuText}>Log Out</Text>
+                            </TouchableOpacity>
                     </ScrollView>
                 </Animated.View>
 
@@ -151,8 +164,6 @@ const styles = StyleSheet.create({
         bottom: 0,
         width: SIDEBAR_WIDTH,
         backgroundColor: "#eaf6ff",
-        borderTopRightRadius: 32,
-        borderBottomRightRadius: 32,
         paddingTop: 30,
         paddingHorizontal: 8,
         zIndex: 2,
@@ -250,7 +261,7 @@ const styles = StyleSheet.create({
     },
     bottomNav: {
         backgroundColor: "#fff",
-        borderRadius: 30,
+        borderRadius: 0,
         elevation: 14,
         shadowColor: "#c2e7ff",
         shadowOpacity: 0.16,
@@ -261,23 +272,17 @@ const styles = StyleSheet.create({
         alignItems: "center",
         paddingHorizontal: 28,
         paddingVertical: 10,
-        marginHorizontal: 26,
-        marginBottom: 16,
-        position: 'absolute',
-        left: 0,
-        right: 0,
-        bottom: 0,
     },
     bottomNavBtn: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#c2e7ff',
-        borderRadius: 18,
+        // alignItems: 'center',
+        // justifyContent: 'center',
+        // backgroundColor: '#c2e7ff',
+        // borderRadius: 18,
         padding: 9,
         marginHorizontal: 8,
-        shadowColor: '#b4d2f7',
-        shadowOpacity: 0.09,
-        shadowRadius: 6,
-        elevation: 2,
+        // shadowColor: '#b4d2f7',
+        // shadowOpacity: 0.09,
+        // shadowRadius: 6,
+        // elevation: 2,
     },
 });
