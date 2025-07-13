@@ -38,7 +38,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
         }).start();
         setSidebarVisible(!sidebarVisible);
     };
-    const { showBottomTab, showHeader, headerText } = useSelector((state: RootState) => state.appConfig);
+    const { showBottomTab, showHeader, headerText ,showSidebarToggle} = useSelector((state: RootState) => state.appConfig);
     const sideMenuItems = [
         { label: "Home", icon: "home", route: "/", lib: "Feather" },
         { label: "Subscriptions", icon: "credit-card", route: "/subscriptions", lib: "Feather" },
@@ -69,13 +69,13 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
     return (
         <View style={[styles.container, { backgroundColor: colors.background }]}>
 
-            {!sidebarVisible && <TouchableOpacity onPress={toggleSidebar} style={[styles.sidebarToggle, { backgroundColor: "#fff" }]}>
+            {!sidebarVisible &&showSidebarToggle && <TouchableOpacity onPress={toggleSidebar} style={[styles.sidebarToggle, { backgroundColor: "#fff" }]}>
                 <Text style={{ fontSize: 24, color: colors.primary }}>☰</Text>
             </TouchableOpacity>}
 
             <View style={{ flex: 1, flexDirection: "row", position: "relative" }}>
                 {/* Overlay */}
-                {sidebarVisible && (
+                { sidebarVisible && (
                     <TouchableOpacity
                         activeOpacity={1}
                         onPress={toggleSidebar}
@@ -86,7 +86,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                 {/* Sidebar */}
                 <Animated.View style={[styles.sidebar, { left: sidebarAnim, backgroundColor: colors.card }]}>
                     <View style={styles.userProfile}>
-                        <View style={{}}>
+                        <View style={styles.userProfileImageWrapper}>
                             <Image
                                 source={{ uri: "https://images.unsplash.com/photo-1575936123452-b67c3203c357?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D" }} style={styles.userProfileImage}
                             />

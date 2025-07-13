@@ -1,10 +1,12 @@
 import { setHeaderText } from '@/store/appConfigSlice';
+import { useRouter } from 'expo-router';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useDispatch } from 'react-redux';
 
 export default function FreeQuizScreen() {
   const dispatch = useDispatch();
+  const router = useRouter();
   React.useEffect(() => {
     dispatch(setHeaderText("Free Quiz"));
     return () => {
@@ -16,7 +18,7 @@ export default function FreeQuizScreen() {
       <Text style={styles.description}>
         Test your knowledge for free! Take our daily quiz and see how you score against others.
       </Text>
-      <TouchableOpacity style={styles.quizBtn}>
+      <TouchableOpacity style={styles.quizBtn} onPress={() => router.push("/(test)/test-start")}>
         <Text style={styles.quizBtnText}>Start Quiz</Text>
       </TouchableOpacity>
     </View>

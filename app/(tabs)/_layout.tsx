@@ -11,6 +11,7 @@ export default function TabLayout() {
     
       <Stack screenOptions={{ headerShown: false }} initialRouteName="index">
         <Stack.Screen name="index" options={{ title: 'Home' }} />
+        <Stack.Screen name="(test)" options={{ title: 'Test Start' }} />
         <Stack.Screen name="tests" options={{ title: 'Tests' }} />
         <Stack.Screen name="subscriptions" options={{ title: 'Subscriptions' }} />
         <Stack.Screen name="pdfs" options={{ title: 'PDFs' }} />
