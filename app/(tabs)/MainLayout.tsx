@@ -56,14 +56,14 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
     const logout = async () => {
         await AsyncStorage.removeItem("token");
         showToast({ type: "success", text1: "Logout successfully!" });
-        router.replace("/(auth)/login");
+        router.push("/(auth)/login");
     };
 
     const handleNavigate = (route: string) => {
         if (sidebarVisible) {
             toggleSidebar();
         }
-        router.replace(route);
+        router.push(route);
     };
 
     return (
@@ -86,7 +86,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                 {/* Sidebar */}
                 <Animated.View style={[styles.sidebar, { left: sidebarAnim, backgroundColor: colors.card }]}>
                     <View style={styles.userProfile}>
-                        <View style={styles.userProfileImageWrapper}>
+                        <View style={{}}>
                             <Image
                                 source={{ uri: "https://images.unsplash.com/photo-1575936123452-b67c3203c357?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW1hZ2V8ZW58MHx8MHx8fDA%3D" }} style={styles.userProfileImage}
                             />
@@ -101,7 +101,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                                 style={styles.sidebarItem}
                                 onPress={() => {
                                     toggleSidebar();
-                                    router.replace(item.route);
+                                    router.push(item.route);
                                 }}
                             >
                                 <Icon name={item.icon} size={24} color={colors.text} />
