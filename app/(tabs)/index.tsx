@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   },
   banner: {
     width: CARD_WIDTH,
-    backgroundColor: '#eef4ff',
+    backgroundColor: '#badcff',
     borderRadius: 22,
     padding: 20,
     marginBottom: 24,

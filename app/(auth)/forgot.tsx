@@ -1,7 +1,6 @@
 import Button from "@/components/common/Button";
 import { showToast } from "@/modules/utils";
 import { authStyle } from "@/styles/authStyle";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
@@ -17,47 +16,42 @@ export default function Forgot() {
   const [agree, setAgree] = useState(false);
   const router = useRouter();
 
-  const handleForgot =async () => {
-    const token = await AsyncStorage.setItem('token', '123456');
-
-    // Add login logic here (API call, etc)
-    // Show a message or navigate as needed
-    showToast({ type: "success", text1: "Forgot Password successful!" });
+  const handleForgot = async () => {
+    showToast({ type: "success", text1: "Forgot Password sent to your email!" });
     router.replace("/(auth)/verifyOtp");
   };
 
   return (
-    <View style={authStyle.container}>
-      <View style={authStyle.header}>
+    <View style={{ flex: 1, backgroundColor: '#B3D6F5' }}>
+      <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', paddingVertical: 40 }}>
+        <View style={[authStyle.card, { width: '90%', maxWidth: 400 }]}>{/* Card container */}
+          <View style={{ alignItems: 'center', marginBottom: 16 }}>
+            <Text style={[authStyle.heading, { color: '#222', fontSize: 30 }]}>Forgot Password</Text>
+          </View>
 
-        <Text style={authStyle.heading}>Forgot Password</Text>
-      </View>
-
-      <ScrollView style={authStyle.form}>
-
-
-        <View style={authStyle.inputContainer}>
-          <Text style={authStyle.label}>Your Email</Text>
-          <TextInput
-            placeholder="Cooper_Kristin@gmail.com"
-            placeholderTextColor="#333"
-            style={authStyle.input}
-          />
-        </View>
+          <View style={authStyle.inputContainer}>
+            <Text style={authStyle.label}>Your Email</Text>
+            <TextInput
+              placeholder="Cooper_Kristin@gmail.com"
+              placeholderTextColor="#333"
+              style={authStyle.input}
+            />
+          </View>
 
 
-        <View style={authStyle.buttonContainer}>
-          <Button onPress={handleForgot} text="Submit" />
-        </View>
 
+          <View style={authStyle.buttonContainer}>
+            <Button onPress={handleForgot} text="Forgot Password" />
+          </View>
 
-        <View style={authStyle.loginTextContainer}>
-          <Text style={authStyle.loginText}>
-            Do you remember your password ?
-          </Text>
-          <TouchableOpacity onPress={() => router.push("/(auth)/login")}>
-            <Text style={authStyle.loginLink}>Login</Text>
-          </TouchableOpacity>
+          <View style={authStyle.loginTextContainer}>
+            <Text style={authStyle.loginText}>
+              Remember your password?
+            </Text>
+            <TouchableOpacity onPress={() => router.push("/(auth)/login")}>{/* Go to signup */}
+              <Text style={authStyle.loginLink}> Login</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </ScrollView>
     </View>

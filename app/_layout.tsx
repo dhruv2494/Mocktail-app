@@ -1,9 +1,9 @@
 import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Provider } from 'react-redux';
-import store from '../store';
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import 'react-native-reanimated';
+import { Provider } from 'react-redux';
+import store from '../store';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -38,7 +38,7 @@ export default function RootLayout() {
       <Provider store={store}>
         <ThemeProvider value={DefaultTheme}>
       <Stack screenOptions={{ headerShown: false }}>
-        {hasToken ? (
+        {false ? (
           <Stack.Screen name="(tabs)" />
         ) : (
           <Stack.Screen name="(auth)" />

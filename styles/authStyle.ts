@@ -123,12 +123,26 @@ export const authStyle = StyleSheet.create({
   },
   forgotPasswordContainer: {
     alignItems: "flex-end",
-    marginTop: 20,
+    marginTop: 5,
     paddingHorizontal: 20,
+    marginBottom: 10,
+    
   },
   forgotPasswordText: {
     color: "#4C5DF4",
     fontWeight: "600",
     textDecorationLine: "underline",
+  },
+  card: {
+    backgroundColor: '#fff',
+    borderRadius: 24,
+    padding: 24,
+    marginVertical: 16,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.10,
+    shadowRadius: 12,
+    elevation: 6,
+    alignItems: 'stretch',
   },
 });

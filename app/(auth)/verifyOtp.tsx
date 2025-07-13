@@ -1,6 +1,8 @@
 import Button from "@/components/common/Button";
+import { showToast } from "@/modules/utils";
+import { authStyle } from "@/styles/authStyle";
 import { useRouter } from "expo-router";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   ScrollView,
   Text,
@@ -9,11 +11,7 @@ import {
   View
 } from "react-native";
 
-import { showToast } from "@/modules/utils";
-import { authStyle } from "@/styles/authStyle";
-import { useRef } from "react";
-
-export default function Forgot() {
+export default function VerifyOtp() {
   const [otp, setOtp] = useState(["", "", "", ""]);
   const otpRefs = useRef<Array<TextInput | null>>([]);
   const router = useRouter();
@@ -45,18 +43,16 @@ export default function Forgot() {
   };
 
   return (
-    <View style={authStyle.container}>
-      <View style={authStyle.header}>
+    <View style={{ flex: 1, backgroundColor: '#B3D6F5' }}>
+      <ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', paddingVertical: 40 }}>
+        <View style={[authStyle.card, { width: '90%', maxWidth: 400 }]}>{/* Card container */}
+          <View style={{ alignItems: 'center', marginBottom: 16 }}>
+            <Text style={[authStyle.heading, { color: '#222', fontSize: 30 }]}>Verify OTP</Text>
+          </View>
 
-        <Text style={authStyle.heading}>Verify OTP</Text>
-      </View>
-
-      <ScrollView style={authStyle.form}>
-
-
-        <View style={authStyle.inputContainer}>
-          <Text style={authStyle.label}>Enter OTP</Text>
-          <View style={authStyle.otpRow}>
+          <View style={authStyle.inputContainer}>
+            <Text style={authStyle.label}>Enter OTP</Text>
+            <View style={authStyle.otpRow}>
             {[0, 1, 2, 3].map((i) => (
               <TextInput
                 key={i}
@@ -72,20 +68,21 @@ export default function Forgot() {
               />
             ))}
           </View>
-        </View>
+          </View>
 
 
-        <View style={authStyle.buttonContainer}>
-          <Button onPress={handleVerify} text="Verify" />
-        </View>
+          <View style={authStyle.buttonContainer}>
+            <Button onPress={handleVerify} text="Verify" />
+          </View>
 
-        <View style={authStyle.loginTextContainer}>
-          <Text style={authStyle.loginText}>
-            Do you remember your password ?
-          </Text>
-          <TouchableOpacity onPress={() => router.push("/(auth)/login")}>
-            <Text style={authStyle.loginLink}>Login</Text>
-          </TouchableOpacity>
+          <View style={authStyle.loginTextContainer}>
+            <Text style={authStyle.loginText}>
+              Didn't receive OTP?
+            </Text>
+            <TouchableOpacity>{/* Go to signup */}
+              <Text style={authStyle.loginLink}> Resend OTP</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </ScrollView>
     </View>
