@@ -162,7 +162,7 @@ export default function TestStart() {
               <View style={{ width: 48, height: 48, borderRadius: 24, backgroundColor: '#B3D6F5', alignItems: 'center', justifyContent: 'center', marginRight: 12 }}>
                 <Text style={{ fontSize: 28, color: '#fff', fontWeight: 'bold' }}>O</Text>
               </View>
-              <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#222', flex: 1 }}>Oxford amreli</Text>
+              <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#222', flex: 1 }}>John Doe</Text>
             </View>
             {/* Dropdown (static for now) */}
             <View style={{ borderWidth: 1, borderColor: '#ddd', borderRadius: 8, padding: 10, marginBottom: 18 }}>

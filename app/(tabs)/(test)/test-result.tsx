@@ -13,7 +13,7 @@ const leaderboard = [
   { rank: 8, name: 'Awadhesh Kumar', score: 10 },
   { rank: 9, name: 'Ranjeet Singh', score: 10 },
   { rank: 10, name: 'Sandip Parmar', score: 10 },
-  { rank: 83, name: 'Oxford amreli', score: 0 },
+  { rank: 83, name: 'John Doe', score: 0 },
 ];
 
 const userStats = {
@@ -67,7 +67,7 @@ export default function TestResult() {
         {/* 1. Congratulations Card */}
         <View style={{ backgroundColor: '#fff', borderRadius: 16, padding: 24, marginBottom: 18, shadowColor: '#000', shadowOpacity: 0.06, shadowRadius: 8, elevation: 2, alignItems: 'center' }}>
           <Text style={{ color: '#3CB4A6', fontWeight: 'bold', fontSize: 20, marginBottom: 8, textAlign: 'center' }}>Congratulations!!!</Text>
-          <Text style={{ color: '#4C5DF4', fontWeight: 'bold', fontSize: 28, marginBottom: 6, textAlign: 'center' }}>Oxford amreli</Text>
+          <Text style={{ color: '#4C5DF4', fontWeight: 'bold', fontSize: 28, marginBottom: 6, textAlign: 'center' }}>John Doe</Text>
           <Text style={{ fontSize: 16, color: '#222', marginBottom: 16, textAlign: 'center' }}>
             Missing Number Series Questions for Bank Clerk Prelims Exam (Day -365)
           </Text>
